@@ -1,0 +1,315 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
+
+/* =========================================================
+   شركة البريق التقني المميز (AlBareeq AlTeqani AlMomayaz)
+   Premium Auth Stylesheet — Create Account — v3.0
+   ========================================================= */
+
+:root {
+    --bg-main: #F0F4F8;
+    --bg-card: #FFFFFF;
+    --text-primary: #111827;
+    --text-secondary: #374151;
+    --text-muted: #6B7280;
+    --border-color: #E2E8F0;
+    --border-dark: #CBD5E1;
+    --primary: #1D4ED8;
+    --primary-hover: #1E40AF;
+    --primary-light: #EFF6FF;
+    --brand-navy: #1A2332;
+    --gold: #B45309;
+    --gold-bg: #FFFBEB;
+    --gold-border: #FCD34D;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.10);
+}
+
+body.dark-mode {
+    --bg-main: #0F172A;
+    --bg-card: #1E293B;
+    --text-primary: #F1F5F9;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+    --border-color: #334155;
+    --border-dark: #475569;
+    --primary: #3B82F6;
+    --primary-hover: #2563EB;
+    --primary-light: #1E3A5F;
+    --gold-bg: #2A1F0A;
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    transition: background 0.25s ease, color 0.25s ease;
+    min-height: 100vh;
+}
+
+.auth-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    position: relative;
+}
+
+/* Top brand strip */
+.auth-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary) 0%, #60A5FA 50%, var(--brand-navy) 100%);
+}
+
+.auth-nav {
+    position: absolute;
+    top: 24px;
+    width: calc(100% - 48px);
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.theme-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    transition: all 0.18s ease;
+    font-family: 'Cairo', sans-serif;
+}
+
+.theme-btn:hover {
+    border-color: var(--border-dark);
+    color: var(--text-primary);
+}
+
+.logo-text {
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    text-decoration: none;
+    letter-spacing: -0.2px;
+}
+
+.auth-card {
+    background: var(--bg-card);
+    width: 100%;
+    max-width: 480px;
+    padding: 44px 40px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.card-header {
+    text-align: center;
+}
+
+.h {
+    font-size: 1.75rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 100%;
+}
+
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.input-wrapper label {
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+}
+
+.input-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--bg-main);
+    color: var(--text-primary);
+    outline: none;
+    font-size: 0.92rem;
+    font-weight: 600;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: 'Cairo', sans-serif;
+}
+
+.input-box input::placeholder {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.input-box input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(29,78,216,0.1);
+    background: var(--bg-card);
+}
+
+.terms-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+}
+
+.terms-check input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--primary);
+    flex-shrink: 0;
+}
+
+.terms-check a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 800;
+}
+
+.terms-check a:hover {
+    text-decoration: underline;
+}
+
+.submit-btn {
+    background: var(--primary);
+    color: #FFFFFF;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Cairo', sans-serif;
+    box-shadow: 0 4px 12px rgba(29,78,216,0.25);
+    width: 100%;
+}
+
+.submit-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(29,78,216,0.35);
+}
+
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.divider {
+    text-align: center;
+    position: relative;
+    margin: 4px 0;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border-color);
+}
+
+.divider span {
+    background: var(--bg-card);
+    padding: 0 14px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    position: relative;
+}
+
+.google-outer-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+}
+
+.status-msg {
+    text-align: center;
+    font-size: 0.88rem;
+    font-weight: 700;
+    min-height: 20px;
+}
+
+.card-footer {
+    text-align: center;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.card-footer a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 800;
+}
+
+.card-footer a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .auth-card { padding: 32px 20px; }
+}

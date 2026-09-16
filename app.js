@@ -1,0 +1,271 @@
+// =========================================================
+// شركة البريق التقني المميز — app.js v3.1
+// Auth | Theme | UI | Language Toggle System
+// =========================================================
+
+const API_URL = "http://127.0.0.1:5000";
+const GOOGLE_CLIENT_ID = "26469138120-ia1vg199gbpq1680q5qiccbk8bodmmou.apps.googleusercontent.com";
+
+// ─── i18n Dictionary ──────────────────────────────────────
+const i18n = {
+    ar: {
+        navHome:       "الرئيسية",
+        navStore:      "المتجر الرقمي",
+        navRealestate: "العقارات الفاخرة",
+        navSecurity:   "الأنظمة الأمنية والتيار الخفيف",
+        navStats:      "الإحصائيات",
+        navAbout:      "من نحن",
+        darkMode:      "الوضع الداكن",
+        lightMode:     "الوضع الفاتح",
+        cart:          "السلة",
+        cartTitle:     "سلة المشتريات والخدمات",
+        addToCart:     "إضافة للسلة",
+        outOfStock:    "غير متوفر",
+        backToStore:   "← العودة إلى قائمة المنتجات",
+        checkout:      "تأكيد الطلب عبر الواتساب المباشر",
+        filterTitle:   "تصفح التصنيفات",
+        heroBtn:       "استكشف متجر الخدمات والمنتجات",
+        heroBtnLogged: "الذهاب للمتجر الرقمي",
+        guestUser:     "مستكشف البريق التقني",
+    },
+    en: {
+        navHome:       "Home",
+        navStore:      "Digital Store",
+        navRealestate: "Luxury Real Estate",
+        navSecurity:   "Security & Light Current",
+        navStats:      "Analytics",
+        navAbout:      "About Us",
+        darkMode:      "Dark Mode",
+        lightMode:     "Light Mode",
+        cart:          "Cart",
+        cartTitle:     "Shopping Cart & Services",
+        addToCart:     "Add to Cart",
+        outOfStock:    "Out of Stock",
+        backToStore:   "← Back to Products",
+        checkout:      "Confirm Order via WhatsApp",
+        filterTitle:   "Browse Categories",
+        heroBtn:       "Explore Products & Services",
+        heroBtnLogged: "Go to Digital Store",
+        guestUser:     "AlBareeq Explorer",
+    }
+};
+
+let currentLang = localStorage.getItem('lang') || 'ar';
+
+// ─── Language Toggle ──────────────────────────────────────
+function toggleLanguage() {
+    currentLang = currentLang === 'ar' ? 'en' : 'ar';
+    localStorage.setItem('lang', currentLang);
+    applyLanguage();
+}
+
+function applyLanguage() {
+    const isAr = currentLang === 'ar';
+    const dict = i18n[currentLang];
+
+    // Root dir/lang
+    document.documentElement.setAttribute('lang', currentLang);
+    document.documentElement.setAttribute('dir', isAr ? 'rtl' : 'ltr');
+
+    // Lang toggle button label
+    const langBtn = document.getElementById('langToggle');
+    if (langBtn) langBtn.textContent = isAr ? 'EN' : 'عربي';
+
+    // Dark mode button
+    const isDark = document.body.classList.contains('dark-mode');
+    const darkBtn = document.getElementById('darkModeToggle');
+    if (darkBtn) darkBtn.textContent = isDark
+        ? (isAr ? 'الوضع الفاتح' : 'Light Mode')
+        : dict.darkMode;
+
+    // All registered i18n nodes
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (key === 'darkMode') return; // handled above
+        if (dict[key] !== undefined) {
+            // For links with icons, preserve child img nodes
+            const imgs = [...el.querySelectorAll('img')];
+            el.textContent = dict[key];
+            imgs.forEach(img => el.insertBefore(img, el.firstChild));
+        }
+    });
+
+    // Hero button
+    const heroBtn = document.getElementById('heroBtn');
+    if (heroBtn) {
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        heroBtn.textContent = user ? dict.heroBtnLogged : dict.heroBtn;
+    }
+
+    // Username placeholder
+    const nameEl = document.getElementById('displayUsername');
+    if (nameEl) {
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        if (!user) nameEl.textContent = dict.guestUser;
+    }
+
+    // Notify other modules (e.g. About.js renderTeam) of language change
+    window.dispatchEvent(new Event('langChanged'));
+}
+
+// ─── Google Auth ──────────────────────────────────────────
+function initializeGoogleAuth() {
+    const googleBtnDiv = document.getElementById('googleBtn');
+    if (googleBtnDiv && typeof google === 'object' && google.accounts) {
+        google.accounts.id.initialize({
+            client_id: GOOGLE_CLIENT_ID,
+            callback: handleGoogleCredentialResponse
+        });
+        google.accounts.id.renderButton(googleBtnDiv, {
+            theme: "outline", size: "large",
+            width: googleBtnDiv.parentElement.offsetWidth,
+            text: "signup_with", shape: "rectangular"
+        });
+    } else if (googleBtnDiv) {
+        setTimeout(initializeGoogleAuth, 500);
+    }
+}
+
+function handleGoogleCredentialResponse(response) {
+    try {
+        const payload = parseJwt(response.credential);
+        localStorage.setItem('currentUser', JSON.stringify({
+            username: payload.name,
+            email: payload.email,
+            google_id: payload.sub
+        }));
+        localStorage.setItem('isLoggedIn', 'true');
+        window.location.href = "store.html";
+    } catch (error) {
+        console.error("Google auth error:", error);
+    }
+}
+
+function parseJwt(token) {
+    const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(decodeURIComponent(
+        window.atob(base64).split('').map(c =>
+            '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+        ).join('')
+    ));
+}
+
+// ─── Auth Form Handler ────────────────────────────────────
+async function handleAuth(type) {
+    const statusMsg  = document.getElementById('statusMessage');
+    const submitBtn  = document.getElementById('submitBtn');
+    const email      = document.getElementById('email')?.value;
+    const password   = document.getElementById('password')?.value;
+    const username   = document.getElementById('username')?.value;
+
+    if (!email || !password) return;
+
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerText = type === 'register' ? "جاري إنشاء الحساب..." : "جاري الدخول...";
+    }
+
+    const endpoint = type === 'register' ? 'register' : 'login';
+    const payload  = type === 'register' ? { username, email, password } : { email, password };
+
+    try {
+        const response = await fetch(`${API_URL}/${endpoint}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem('currentUser', JSON.stringify({
+                username: result.user || username || i18n[currentLang].guestUser,
+                email
+            }));
+            localStorage.setItem('isLoggedIn', 'true');
+            window.location.href = "store.html";
+        } else {
+            if (statusMsg) { statusMsg.style.color = "#DC2626"; statusMsg.innerText = result.error || "حدث خطأ"; }
+            resetSubmitButton(submitBtn, type);
+        }
+    } catch {
+        if (statusMsg) { statusMsg.style.color = "#B45309"; statusMsg.innerText = "تعذر الاتصال بالخادم (Localhost)"; }
+        resetSubmitButton(submitBtn, type);
+    }
+}
+
+function resetSubmitButton(btn, type) {
+    if (btn) { btn.disabled = false; btn.innerText = type === 'register' ? "إنشــــاء الحساب" : "دخــــــــول"; }
+}
+
+// ─── Theme ────────────────────────────────────────────────
+function initTheme() {
+    const isDark = localStorage.getItem('theme') === 'dark';
+    if (isDark) document.body.classList.add('dark-mode');
+    updateToggleButton(isDark);
+}
+
+function updateToggleButton(isDark) {
+    const btn = document.getElementById('darkModeToggle');
+    if (!btn) return;
+    const dict = i18n[currentLang];
+    btn.innerText = isDark ? dict.lightMode : dict.darkMode;
+}
+
+function toggleDropdown() {
+    document.getElementById("userMenu")?.classList.toggle("show");
+}
+
+// ─── UI State ─────────────────────────────────────────────
+function updateUI() {
+    const user        = JSON.parse(localStorage.getItem('currentUser'));
+    const dict        = i18n[currentLang];
+    const loginLink   = document.getElementById('loginLink');
+    const signupLink  = document.getElementById('signupLink');
+    const logoutLink  = document.getElementById('logoutLink');
+    const nameDisplay = document.getElementById('displayUsername');
+    const fullName    = document.getElementById('displayUserFullName');
+    const emailDisp   = document.getElementById('displayEmail');
+    const heroBtn     = document.getElementById('heroBtn');
+
+    if (user) {
+        if (nameDisplay) nameDisplay.innerText = user.username;
+        if (fullName)    fullName.innerText    = user.username;
+        if (emailDisp)   emailDisp.innerText   = user.email || 'عضو مميز';
+        if (loginLink)   loginLink.style.display  = 'none';
+        if (signupLink)  signupLink.style.display  = 'none';
+        if (logoutLink)  logoutLink.style.display  = 'block';
+        if (heroBtn) { heroBtn.innerText = dict.heroBtnLogged; heroBtn.onclick = () => { window.location.href = "store.html"; }; }
+    } else {
+        if (nameDisplay) nameDisplay.innerText = dict.guestUser;
+        if (fullName)    fullName.innerText    = 'ضيف';
+        if (emailDisp)   emailDisp.innerText   = 'غير مسجل';
+        if (loginLink)   loginLink.style.display  = 'block';
+        if (signupLink)  signupLink.style.display  = 'block';
+        if (logoutLink)  logoutLink.style.display  = 'none';
+        if (heroBtn) { heroBtn.innerText = dict.heroBtn; heroBtn.onclick = () => { window.location.href = "createac.html"; }; }
+    }
+}
+
+function logout() {
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('isLoggedIn');
+    window.location.href = "signin.html";
+}
+
+// ─── Bootstrap ────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    applyLanguage();
+    updateUI();
+    initializeGoogleAuth();
+
+    document.getElementById('darkModeToggle')?.addEventListener('click', () => {
+        const isDark = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateToggleButton(isDark);
+
+        // Re-render Google button on theme change
+        const googleBtnDiv = document.getElementById('googleBtn');
+        if (googleBtnDiv) { googleBtnDiv.innerHTML = ""; initializeGoogleAuth(); }
+    });
+});

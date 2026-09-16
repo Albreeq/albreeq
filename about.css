@@ -1,0 +1,432 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
+
+/* =========================================================
+   شركة البريق التقني المميز (AlBareeq AlTeqani AlMomayaz)
+   About Page — Premium Corporate Light Theme
+   ========================================================= */
+
+:root {
+    --bg-main:          #FFFFFF;
+    --bg-surface:       #F8FAFC;
+    --bg-card:          #FFFFFF;
+    --text-primary:     #111827;
+    --text-secondary:   #374151;
+    --text-muted:       #6B7280;
+    --border-color:     #E2E8F0;
+    --border-dark:      #CBD5E1;
+    --primary:          #1D4ED8;
+    --primary-hover:    #1E40AF;
+    --primary-light:    #EFF6FF;
+    --brand-navy:       #1A2332;
+    --brand-navy-light: #F0F4F8;
+    --gold:             #B45309;
+    --gold-bg:          #FFFBEB;
+    --gold-border:      #FCD34D;
+    --radius-sm:        6px;
+    --radius-md:        10px;
+    --radius-lg:        14px;
+    --shadow-sm:        0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md:        0 4px 16px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.04);
+    --shadow-lg:        0 10px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+}
+
+body.dark-mode {
+    --bg-main:          #0F172A;
+    --bg-surface:       #1E293B;
+    --bg-card:          #1E293B;
+    --text-primary:     #F1F5F9;
+    --text-secondary:   #CBD5E1;
+    --text-muted:       #94A3B8;
+    --border-color:     #334155;
+    --border-dark:      #475569;
+    --primary:          #3B82F6;
+    --primary-hover:    #2563EB;
+    --primary-light:    #1E3A5F;
+    --brand-navy-light: #1E293B;
+    --gold-bg:          #2A1F0A;
+    --shadow-sm:        0 1px 3px rgba(0,0,0,0.3);
+    --shadow-md:        0 4px 16px rgba(0,0,0,0.3);
+    --shadow-lg:        0 10px 40px rgba(0,0,0,0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    transition: background 0.25s ease, color 0.25s ease;
+    min-height: 100vh;
+}
+
+/* ─── Icon Utilities ──────────────────────────────────── */
+.ui-icon { display: inline-block; vertical-align: middle; object-fit: contain; flex-shrink: 0; }
+.ui-icon-sm { width: 18px; height: 18px; }
+.ui-icon-md { width: 24px; height: 24px; }
+.ui-icon-lg { width: 44px; height: 44px; }
+.icon-black { filter: brightness(0); }
+body.dark-mode .icon-black { filter: brightness(0) invert(1); }
+
+/* ─── Navbar (shared dock styles) ────────────────────── */
+.dock-container {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 2000;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+body.dark-mode .dock-container { background: rgba(15,23,42,0.92); }
+
+.dock {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 32px;
+}
+
+.brand-logo-group { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+
+.brand-logo-text {
+    font-size: 1.45rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+    line-height: 1;
+}
+
+.dock-main-links { display: flex; gap: 4px; align-items: center; }
+
+.dock-item {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 7px 12px;
+    border-radius: var(--radius-sm);
+    transition: all 0.18s ease;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    will-change: transform;
+}
+.dock-item:hover { color: var(--primary); background: var(--primary-light); transform: scale(1.015); }
+.dock-item.active { color: var(--primary); background: var(--primary-light); font-weight: 800; }
+
+.dock-actions { display: flex; align-items: center; gap: 10px; }
+
+.theme-btn {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    transition: all 0.18s ease;
+    font-family: 'Cairo', sans-serif;
+}
+.theme-btn:hover { background: var(--bg-card); border-color: var(--border-dark); color: var(--text-primary); }
+
+.lang-btn {
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    min-width: 42px;
+    text-align: center;
+    color: var(--primary);
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+.lang-btn:hover { background: var(--primary); color: #FFFFFF; border-color: var(--primary); }
+
+/* ─── Page Layout ─────────────────────────────────────── */
+main.about-main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 110px 32px 80px;
+}
+
+/* ─── Branding Hero Section ───────────────────────────── */
+.about-hero {
+    padding: 64px 0 56px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 64px;
+    position: relative;
+}
+
+.about-hero::before {
+    content: '';
+    display: block;
+    width: 72px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary) 0%, #60A5FA 60%, transparent 100%);
+    border-radius: 999px;
+    margin-bottom: 28px;
+}
+
+.about-hero h1 {
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 900;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    margin-bottom: 20px;
+}
+
+.about-hero .tagline {
+    display: inline-block;
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: var(--gold);
+    background: var(--gold-bg);
+    border: 1px solid var(--gold-border);
+    border-radius: 20px;
+    padding: 4px 14px;
+    margin-bottom: 20px;
+}
+
+.about-hero p {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    max-width: 680px;
+    line-height: 1.85;
+}
+
+/* ─── Team Section ────────────────────────────────────── */
+.team-section { margin-bottom: 80px; }
+
+.team-section h2 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin-bottom: 32px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+#team-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+/* ─── Team Member Card ────────────────────────────────── */
+.team-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    will-change: transform;
+    /* entrance animation */
+    opacity: 0;
+    transform: translateY(12px);
+    animation: cardFadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.team-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px) scale(1.012);
+}
+
+.team-card:nth-child(1) { animation-delay: 0.05s; }
+.team-card:nth-child(2) { animation-delay: 0.13s; }
+.team-card:nth-child(3) { animation-delay: 0.21s; }
+.team-card:nth-child(4) { animation-delay: 0.29s; }
+
+@keyframes cardFadeUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.team-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.team-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    object-fit: cover;
+    background: var(--bg-surface);
+    padding: 6px;
+    filter: brightness(0);
+}
+body.dark-mode .team-avatar { filter: brightness(0) invert(1); }
+
+.team-name-block { flex: 1; min-width: 0; }
+
+.team-name {
+    font-size: 1.12rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.team-role-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 20px;
+    line-height: 1.4;
+}
+
+/* Founder gets navy badge; others get blue */
+.team-role-badge.founder {
+    background: var(--brand-navy);
+    color: #FFFFFF;
+}
+.team-role-badge.tech {
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+.team-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.team-meta-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.meta-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    min-width: 80px;
+}
+
+.meta-value {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.meta-value strong {
+    color: var(--text-primary);
+    font-weight: 800;
+}
+
+/* ─── Shared Legal Footer ─────────────────────────────── */
+.main-footer {
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-color);
+    padding: 32px;
+}
+
+.footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.footer-brand p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-top: 4px;
+    line-height: 1.6;
+}
+
+.footer-brand strong {
+    font-size: 0.98rem;
+    font-weight: 900;
+    color: var(--text-primary);
+}
+
+.footer-legal {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.footer-legal-item {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    direction: ltr;
+    text-align: right;
+}
+
+.footer-legal-item span {
+    font-weight: 800;
+    color: var(--text-secondary);
+}
+
+.footer-social {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 6px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    transition: all 0.18s ease;
+}
+.footer-social-link:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-light);
+}
+.footer-social-link img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.footer-copy {
+    width: 100%;
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    margin-top: 12px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* ─── Responsive ──────────────────────────────────────── */
+@media (max-width: 900px) {
+    .dock-main-links { display: none; }
+    main.about-main { padding: 90px 20px 60px; }
+    #team-container { grid-template-columns: 1fr; }
+    .footer-inner { flex-direction: column; }
+}

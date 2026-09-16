@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>من نحن | البريق التقني المميز</title>
+    <meta name="description" content="تعرف على شركة البريق التقني المميز، فريقها المؤسس، وتاريخها الممتد منذ 2015 في مجال التيار الخفيف والتطوير العقاري.">
+    <link rel="icon" href="favico.png" type="image/png" sizes="32x32">
+    <link rel="stylesheet" href="about.css">
+</head>
+<body>
+    <script src="color.js"></script>
+
+    <!-- ═══ Floating Navigation Dock ══════════════════════ -->
+    <nav class="dock-container">
+        <div class="dock">
+            <a href="index.html" class="brand-logo-group">
+                <img src="icns/home.png" alt="Home" class="ui-icon ui-icon-md icon-black">
+                <span class="brand-logo-text">البريق التقني المميز</span>
+            </a>
+
+            <div class="dock-main-links">
+                <a href="index.html" class="dock-item" data-i18n="navHome">
+                    <img src="icns/home.png" alt="Home" class="ui-icon ui-icon-sm icon-black">
+                    الرئيسية
+                </a>
+                <a href="store.html" class="dock-item" data-i18n="navStore">
+                    <img src="icns/grocery-store.png" alt="Store" class="ui-icon ui-icon-sm icon-black">
+                    المتجر الرقمي
+                </a>
+                <a href="store.html?cat=realestate" class="dock-item" data-i18n="navRealestate">العقارات الفاخرة</a>
+                <a href="About.html" class="dock-item active" data-i18n="navAbout">من نحن</a>
+            </div>
+
+            <div class="dock-actions">
+                <button id="langToggle" class="theme-btn lang-btn" onclick="toggleLanguage()">EN</button>
+                <button id="darkModeToggle" class="theme-btn" data-i18n="darkMode">الوضع الداكن</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══ Main Content ═══════════════════════════════════ -->
+    <main class="about-main">
+
+        <!-- Branding & Bio -->
+        <section class="about-hero" aria-labelledby="company-heading">
+            <span class="tagline">AlBareeq AlTeqani AlMomayaz · تأسست 2026</span>
+            <h1 id="company-heading">البريق التقني المميز</h1>
+            <p>شركة تأسست قانونياً عام 2026، بدأنا بأعمال التيار الخفيف منذ عام 2015 بخبرة تتجاوز الـ 11 عاماً.</p>
+        </section>
+
+        <!-- Team -->
+        <section class="team-section" aria-labelledby="team-heading">
+            <h2 id="team-heading">فريق العمل</h2>
+            <div id="team-container">
+                <!-- Dynamically rendered by About.js → renderTeam() -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ═══ Legal Footer (Canonical) ══════════════════════ -->
+    <footer class="main-footer" role="contentinfo">
+        <div class="footer-inner">
+
+            <div class="footer-brand">
+                <strong>البريق التقني المميز</strong>
+                <p>AlBareeq AlTeqani AlMomayaz<br>حلول عقارية وأنظمة تيار خفيف وأمان ذكي</p>
+            </div>
+
+            <div class="footer-legal">
+                <p class="footer-legal-item">رقم السجل التجاري: <span>6767-676767-6767</span></p>
+                <p class="footer-legal-item">الرقم الضريبي: <span>xx-xx-xxx</span></p>
+            </div>
+
+            <div class="footer-social">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="footer-social-link">
+                    <img src="icns/user.png" alt="Instagram" class="icon-black" width="16" height="16">
+                    Instagram
+                </a>
+                <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="footer-social-link">
+                    <img src="icns/thunder.png" alt="X" class="icon-black" width="16" height="16">
+                    X (Twitter)
+                </a>
+            </div>
+
+            <p class="footer-copy">جميع الحقوق محفوظة © 2026 | شركة البريق التقني المميز</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script src="About.js"></script>
+</body>
+</html>

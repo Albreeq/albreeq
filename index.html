@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>البريق التقني المميز | حلول عقارية وأنظمة تيار خفيف وأمان ذكي</title>
+    <meta name="description" content="شركة البريق التقني المميز — متخصصة في التطوير العقاري الفاخر وتنفيذ أنظمة التيار الخفيف والمراقبة والأتمتة الذكية للمباني والمنشآت.">
+    <meta name="keywords" content="عقارات, تيار خفيف, أنظمة أمان, كاميرات مراقبة, بيت ذكي, البريق التقني">
+    <meta property="og:title" content="البريق التقني المميز">
+    <meta property="og:description" content="حلول عقارية متكاملة وأنظمة تيار خفيف وأمان ذكي">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" href="favico.png" type="image/png" sizes="32x32">
+</head>
+<body>
+
+    <nav class="dock-container">
+        <div class="dock">
+            <a href="index.html" class="brand-logo-group">
+                <img src="icns/home.png" alt="Home" class="ui-icon ui-icon-md icon-black">
+                <span class="brand-logo-text">البريق التقني المميز</span>
+            </a>
+
+            <div class="dock-main-links">
+                <a href="index.html" class="dock-item active" data-i18n="navHome">
+                    <img src="icns/home.png" alt="Home" class="ui-icon ui-icon-sm icon-black">
+                    الرئيسية
+                </a>
+                <a href="store.html" class="dock-item" data-i18n="navStore">
+                    <img src="icns/grocery-store.png" alt="Store" class="ui-icon ui-icon-sm icon-black">
+                    المتجر الرقمي
+                </a>
+                <a href="store.html?cat=realestate" class="dock-item" data-i18n="navRealestate">العقارات الفاخرة</a>
+                <a href="About.html" class="dock-item" data-i18n="navAbout">من نحن</a>
+            </div>
+            
+            <div class="dock-actions">
+                <button id="langToggle" class="theme-btn lang-btn" onclick="toggleLanguage()">EN</button>
+                <button id="darkModeToggle" class="theme-btn" data-i18n="darkMode">الوضع الداكن</button>
+                <div class="user-dropdown">
+                    <div class="user-trigger" onclick="toggleDropdown()">
+                        <img src="icns/user.png" alt="User" class="ui-icon ui-icon-sm icon-black">
+                        <span id="displayUsername" style="font-weight: 700;">مستكشف البريق التقني</span>
+                    </div>
+                    <div id="userMenu" class="dropdown-content">
+                        <div class="user-info" style="padding-bottom: 8px; border-bottom: 1px solid #E2E8F0;">
+                            <p id="displayUserFullName" class="user-name" style="font-weight: 800;">ضيف</p>
+                            <p id="displayEmail" class="user-email" style="font-size: 0.8rem; color: #64748B;">غير مسجل</p>
+                        </div>
+                        <a href="signin.html" id="loginLink">تسجيل الدخول</a>
+                        <a href="createac.html" id="signupLink">إنشاء حساب جديد</a>
+                        <a href="#" onclick="logout()" id="logoutLink" style="display:none; color: #DC2626;">تسجيل الخروج</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <div class="brand-badge" aria-hidden="true"></div>
+            <h1 class="h">حلول وتطوير عقاري فاخر وأنظمة تيار خفيف وأمان ذكي</h1>
+            <h2 class="h2">خبرة تنفيذية متكاملة في إدارة المشاريع العقارية وتجهيز الشبكات والأمان الذكي</h2>
+            <p class="hero-description">نقدم باقة شاملة من الحلول العقارية والاستشارات الهندسية، مع تنفيذ أنظمة التيار الخفيف والمراقبة والأتمتة الذكية للمباني والمنشآت وفق أعلى المعايير.</p>
+            <div class="hero-btns">
+                <button class="hero-btn primary" id="heroBtn">
+                    استكشف متجر الخدمات والمنتجات
+                </button>
+            </div>
+        </div>
+
+        <div class="cards-showcase">
+            
+            <div class="showcase-card">
+                <div class="card-badge">عقارات متميزة</div>
+                <div class="card-icon-wrapper">
+                    <img src="icns/home.png" alt="العقارات" class="ui-icon ui-icon-lg icon-black">
+                </div>
+                <h3>وحدات سكنية وتطوير عقاري</h3>
+                <p>وحدات ومشاريع عقارية فاخرة مجهزة بأساسيات البنية التحتية والأنظمة الذكية.</p>
+                <div class="card-footer-btn">حلول استثمارية متكاملة</div>
+            </div>
+
+            <div class="showcase-card">
+                <div class="card-badge highlight">أنظمة أمنية</div>
+                <div class="card-icon-wrapper">
+                    <img src="icns/lock.png" alt="الأمان" class="ui-icon ui-icon-lg icon-black">
+                </div>
+                <h3>مراقبة وتيار خفيف</h3>
+                <p>أنظمة كاميرات مراقبة 4K UHD، تحكم بيومتري بالدخول، وأقفال ذكية للمنشآت.</p>
+                <div class="card-footer-btn">حماية وتغطية شاملة</div>
+            </div>
+
+            <div class="showcase-card">
+                <div class="card-badge">البيت الذكي</div>
+                <div class="card-icon-wrapper">
+                    <img src="icns/iphone.png" alt="البيت الذكي" class="ui-icon ui-icon-lg icon-black">
+                </div>
+                <h3>أتمتة وإدارة بيئية</h3>
+                <p>تحكم كامل بالأنظمة الكهربائية، التكييف، والإضاءة عبر تطبيقات الهاتف الذكي.</p>
+                <div class="card-footer-btn">إدارة وتنسيق متطور</div>
+            </div>
+
+            <div class="showcase-card">
+                <div class="card-badge">البنية التحتية</div>
+                <div class="card-icon-wrapper">
+                    <img src="icns/thunder.png" alt="البنية التحتية" class="ui-icon ui-icon-lg icon-black">
+                </div>
+                <h3>شبكات وتيار خفيف للمشاريع</h3>
+                <p>تجهيز كابلات الشبكات، أنظمة الإنذار، والموزعات المركزية للمشاريع الكبرى.</p>
+                <div class="card-footer-btn">اعتماد وجودة هندسية</div>
+            </div>
+
+        </div>
+    </header>
+
+    <section class="data-section">
+        <div class="chart-container">
+            <h3 class="chart-title">مؤشرات نمو قطاع العقارات والأنظمة الذكية 2026</h3>
+            <canvas id="growthChart"></canvas>
+        </div>
+    </section>
+
+    <footer class="main-footer" role="contentinfo">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <strong>البريق التقني المميز</strong>
+                <p>AlBareeq AlTeqani AlMomayaz<br>حلول عقارية وأنظمة تيار خفيف وأمان ذكي</p>
+            </div>
+            <div class="footer-legal">
+                <p class="footer-legal-item">رقم السجل التجاري: <span>6767-676767-6767</span></p>
+                <p class="footer-legal-item">الرقم الضريبي: <span>xx-xx-xxx</span></p>
+            </div>
+            <div class="footer-social">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="footer-social-link">
+                    <img src="icns/user.png" alt="Instagram" class="icon-black" width="16" height="16">
+                    Instagram
+                </a>
+                <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="footer-social-link">
+                    <img src="icns/thunder.png" alt="X" class="icon-black" width="16" height="16">
+                    X (Twitter)
+                </a>
+            </div>
+            <p class="footer-copy">جميع الحقوق محفوظة © 2026 | شركة البريق التقني المميز</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            const isDark = document.body.classList.contains('dark-mode');
+            const labelColor = isDark ? '#CBD5E1' : '#374151';
+            const gridColor = isDark ? '#334155' : '#E2E8F0';
+            
+            const growthChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو'],
+                    datasets: [{
+                        label: 'نمو الاستثمار العقاري',
+                        data: [18, 25, 22, 38, 52, 65],
+                        borderColor: '#1D4ED8',
+                        backgroundColor: 'rgba(29,78,216,0.06)',
+                        borderWidth: 2.5,
+                        tension: 0.35,
+                        fill: true,
+                        pointBackgroundColor: '#1D4ED8',
+                        pointRadius: 4
+                    }, {
+                        label: 'اعتماد أنظمة التيار الخفيف والأمان',
+                        data: [12, 20, 32, 29, 45, 58],
+                        borderColor: '#B45309',
+                        backgroundColor: 'rgba(180,83,9,0.05)',
+                        borderWidth: 2.5,
+                        tension: 0.35,
+                        fill: true,
+                        pointBackgroundColor: '#B45309',
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: labelColor, font: { family: 'Cairo', size: 13, weight: 'bold' }, padding: 20 } }
+                    },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: labelColor, font: { family: 'Cairo', size: 12 } }, border: { color: gridColor } },
+                        y: { grid: { color: gridColor }, ticks: { color: labelColor, font: { family: 'Cairo', size: 12 } }, border: { color: gridColor } }
+                    }
+                }
+            });
+
+            // Update chart colors on dark mode toggle
+            document.getElementById('darkModeToggle')?.addEventListener('click', () => {
+                const dark = document.body.classList.contains('dark-mode');
+                const lc = dark ? '#CBD5E1' : '#374151';
+                const gc = dark ? '#334155' : '#E2E8F0';
+                growthChart.options.plugins.legend.labels.color = lc;
+                growthChart.options.scales.x.ticks.color = lc;
+                growthChart.options.scales.y.ticks.color = lc;
+                growthChart.options.scales.x.border.color = gc;
+                growthChart.options.scales.y.border.color = gc;
+                growthChart.options.scales.y.grid.color = gc;
+                growthChart.update();
+            });
+        });
+    </script>
+</body>
+</html>

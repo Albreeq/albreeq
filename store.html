@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المتجر الرقمي | البريق التقني المميز</title>
+    <link rel="stylesheet" href="store.css">
+
+    <script>
+        const isLoggedIn = localStorage.getItem('isLoggedIn'); 
+        if (isLoggedIn !== 'true') {
+            window.location.href = 'createac.html'; 
+        }
+    </script>
+</head>
+<body>
+    <script src="color.js"></script>
+
+    <header class="store-header">
+        <div class="header-container">
+            <div class="right-nav">
+                <a href="index.html" class="logo">
+                    <img src="icns/home.png" alt="Home" class="ui-icon ui-icon-md icon-black">
+                    البريق التقني المميز
+                </a>
+                <nav class="nav-links">
+                    <a href="index.html" data-i18n="navHome">الرئيسية</a>
+                    <a href="store.html" class="active" data-i18n="navStore">المتجر الرقمي</a>
+                    <a href="index.html#growthChart" data-i18n="navStats">الإحصائيات</a>
+                    <a href="About.html" data-i18n="navAbout">من نحن</a>
+                </nav>
+            </div>
+            
+            <div class="left-nav">
+                <button id="langToggle" class="theme-btn lang-btn" onclick="toggleLanguage()">EN</button>
+                <button id="darkModeToggle" class="theme-btn" data-i18n="darkMode">الوضع الداكن</button>
+                
+                <div class="cart-icon-wrapper" onclick="toggleCartSidebar()">
+                    <img src="icns/grocery-store.png" alt="Cart" class="ui-icon ui-icon-sm icon-black">
+                    <span data-i18n="cart">السلة</span>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </div>
+
+                <div class="user-profile-wrapper" onclick="toggleDropdown()">
+                    <div class="profile-trigger">
+                        <img src="icns/user.png" alt="User" class="ui-icon ui-icon-sm icon-black">
+                        <span id="displayUsername">مستكشف البريق التقني</span>
+                    </div>
+                    <div id="userMenu" class="dropdown-menu">
+                        <a href="#">حسابي</a>
+                        <a href="#">طلباتي والعقود</a>
+                        <button onclick="logout()" id="logoutLink" class="logout-btn" style="color: #DC2626;">تسجيل الخروج</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="store-layout">
+        <aside class="filter-sidebar">
+            <h3>تصفح التصنيفات</h3>
+            <ul class="category-list">
+                <li class="active" onclick="filterCategory('all', this)">
+                    <img src="icns/home.png" alt="All" class="ui-icon ui-icon-sm icon-black">
+                    جميع المنتجات والخدمات
+                </li>
+                <li onclick="filterCategory('realestate', this)">
+                    <img src="icns/home.png" alt="Real Estate" class="ui-icon ui-icon-sm icon-black">
+                    حلول ووحدات عقارية
+                </li>
+                <li onclick="filterCategory('cameras', this)">
+                    <img src="icns/lock.png" alt="Cameras" class="ui-icon ui-icon-sm icon-black">
+                    كاميرات مراقبة 4K
+                </li>
+                <li onclick="filterCategory('security', this)">
+                    <img src="icns/lock.png" alt="Security" class="ui-icon ui-icon-sm icon-black">
+                    أنظمة أمان وتيار خفيف
+                </li>
+                <li onclick="filterCategory('hardware', this)">
+                    <img src="icns/thunder.png" alt="Hardware" class="ui-icon ui-icon-sm icon-black">
+                    أجهزة وصيانة هاردوير
+                </li>
+            </ul>
+        </aside>
+
+        <section class="products-section">
+            <!-- Grid View (Default) -->
+            <div id="productsGridSection">
+                <div class="section-title-row">
+                    <h2>منتجات وخدمات البريق التقني المميز</h2>
+                    <span class="results-count">تم العثور على 6 عناصر</span>
+                </div>
+
+                <div class="products-grid" id="productsGrid">
+                </div>
+            </div>
+
+            <!-- Single Product Detailed View Container (Dynamic DOM Injection) -->
+            <div id="productDetailSection" style="display: none;">
+            </div>
+        </section>
+    </main>
+
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-sidebar-header">
+            <h4 data-i18n="cartTitle">سلة المشتريات والخدمات</h4>
+            <button class="close-cart-btn" onclick="toggleCartSidebar()">✕</button>
+        </div>
+        <div class="cart-items-container" id="cartItemsContainer">
+            <div class="empty-cart-msg">
+                <img src="icns/grocery-store.png" alt="Empty" class="ui-icon ui-icon-lg icon-black" style="opacity: 0.3; margin-bottom: 12px;">
+                <p>السلة فارغة حالياً</p>
+            </div>
+        </div>
+        <div class="cart-sidebar-footer">
+            <div class="total-row">
+                <span>المجموع الكلي:</span>
+                <span id="cartTotalSum">0.00$</span>
+            </div>
+            <button class="checkout-btn" onclick="goToCheckout()">تأكيد الطلب عبر الواتساب المباشر</button>
+        </div>
+    </div>
+
+    <script src="store.js"></script>
+    <script src="app.js"></script>
+
+    <footer class="main-footer" role="contentinfo">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <strong>البريق التقني المميز</strong>
+                <p>AlBareeq AlTeqani AlMomayaz<br>حلول عقارية وأنظمة تيار خفيف وأمان ذكي</p>
+            </div>
+            <div class="footer-legal">
+                <p class="footer-legal-item">رقم السجل التجاري: <span>6767-676767-6767</span></p>
+                <p class="footer-legal-item">الرقم الضريبي: <span>xx-xx-xxx</span></p>
+            </div>
+            <div class="footer-social">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="footer-social-link">
+                    <img src="icns/user.png" alt="Instagram" class="icon-black" width="16" height="16">
+                    Instagram
+                </a>
+                <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="footer-social-link">
+                    <img src="icns/thunder.png" alt="X" class="icon-black" width="16" height="16">
+                    X (Twitter)
+                </a>
+            </div>
+            <p class="footer-copy">جميع الحقوق محفوظة © 2026 | شركة البريق التقني المميز</p>
+        </div>
+    </footer>
+</body>
+</html>
