@@ -559,6 +559,283 @@ body.dark-mode .card-icon-wrapper {
     .footer-legal-item { text-align: right; }
 }
 
+/* ─── Scroll Reveal Animation Engine ────────────────── */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: transform, opacity;
+}
+
+.scroll-reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ─── Landing Page Sections ──────────────────────────── */
+.lp-section {
+    width: 100%;
+    padding: 100px 5%;
+    border-top: 1px solid var(--border-color);
+}
+
+.lp-section--white { background: #ffffff; }
+.lp-section--slate { background: #f9fafb; }
+
+body.dark-mode .lp-section--white { background: var(--bg-main); }
+body.dark-mode .lp-section--slate { background: var(--bg-surface); }
+
+/* ─── Section Inner: 2-Column Alternating Flex ───────── */
+.lp-section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 80px;
+}
+
+.lp-section-inner .lp-text-col   { order: 1; }
+.lp-section-inner .lp-visual-col { order: 2; }
+
+.lp-section-inner--reversed .lp-text-col   { order: 2; }
+.lp-section-inner--reversed .lp-visual-col { order: 1; }
+
+/* ─── Text Column ────────────────────────────────────── */
+.lp-text-col {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: right;
+}
+
+/* ─── Section Tag / Eyebrow Label ────────────────────── */
+.lp-section-tag {
+    display: inline-block;
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid #BFDBFE;
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    letter-spacing: 0.3px;
+}
+
+.lp-section-tag--gold {
+    background: var(--gold-bg);
+    color: var(--gold);
+    border-color: var(--gold-border);
+}
+
+.lp-section-tag--navy {
+    background: var(--brand-navy-light);
+    color: var(--brand-navy);
+    border-color: var(--border-dark);
+}
+
+body.dark-mode .lp-section-tag--navy { color: var(--text-secondary); }
+
+/* ─── Section Title ──────────────────────────────────── */
+.lp-section-title {
+    font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+    font-weight: 900;
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    letter-spacing: -0.4px;
+}
+
+/* ─── Section Description ────────────────────────────── */
+.lp-section-desc {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.9;
+    font-weight: 500;
+    margin-bottom: 28px;
+    max-width: 520px;
+}
+
+/* ─── Feature List ───────────────────────────────────── */
+.lp-feature-list {
+    list-style: none;
+    margin-bottom: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.lp-feature-list li {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    padding-right: 24px;
+    position: relative;
+}
+
+.lp-feature-list li::before {
+    content: '✓';
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: var(--primary);
+    font-weight: 900;
+    font-size: 0.9rem;
+}
+
+/* ─── CTA Buttons ────────────────────────────────────── */
+.lp-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--primary);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 14px 32px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 14px rgba(29, 78, 216, 0.28);
+    font-family: 'Cairo', sans-serif;
+    will-change: transform;
+}
+
+.lp-cta-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(29, 78, 216, 0.38);
+}
+
+.lp-cta-btn--gold {
+    background: var(--gold);
+    box-shadow: 0 4px 14px rgba(180, 83, 9, 0.28);
+}
+
+.lp-cta-btn--gold:hover {
+    background: #92400E;
+    box-shadow: 0 6px 20px rgba(180, 83, 9, 0.38);
+}
+
+.lp-cta-btn--navy {
+    background: var(--brand-navy);
+    box-shadow: 0 4px 14px rgba(26, 35, 50, 0.28);
+}
+
+.lp-cta-btn--navy:hover {
+    background: #0F172A;
+    box-shadow: 0 6px 20px rgba(26, 35, 50, 0.38);
+}
+
+/* ─── Visual Column ──────────────────────────────────── */
+.lp-visual-col {
+    flex: 0 0 420px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 380px;
+}
+
+/* ─── Central Icon Display with Rings ───────────────── */
+.lp-icon-display {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.lp-icon-display--blue {
+    background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+    box-shadow: 0 20px 60px rgba(29, 78, 216, 0.15);
+}
+
+.lp-icon-display--gold {
+    background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+    box-shadow: 0 20px 60px rgba(180, 83, 9, 0.15);
+}
+
+.lp-icon-display--navy {
+    background: linear-gradient(135deg, #F0F4F8 0%, #E2E8F0 100%);
+    box-shadow: 0 20px 60px rgba(26, 35, 50, 0.12);
+}
+
+body.dark-mode .lp-icon-display--blue { background: linear-gradient(135deg, #1E3A5F 0%, #1D4ED8 20%, #0F172A 100%); box-shadow: 0 20px 60px rgba(59,130,246,0.2); }
+body.dark-mode .lp-icon-display--gold { background: linear-gradient(135deg, #2A1F0A 0%, #78350F 100%); }
+body.dark-mode .lp-icon-display--navy { background: linear-gradient(135deg, #1E293B 0%, #334155 100%); }
+
+.lp-icon-main {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    position: relative;
+    z-index: 3;
+}
+
+/* ─── Decorative Pulsing Rings ───────────────────────── */
+.lp-icon-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1.5px solid rgba(29, 78, 216, 0.15);
+    pointer-events: none;
+}
+
+.lp-icon-ring--1 {
+    width: 260px;
+    height: 260px;
+    animation: ringPulse 4s ease-in-out infinite;
+}
+
+.lp-icon-ring--2 {
+    width: 320px;
+    height: 320px;
+    animation: ringPulse 4s ease-in-out infinite 0.8s;
+}
+
+@keyframes ringPulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50%       { opacity: 0.15; transform: scale(1.04); }
+}
+
+/* ─── Floating Stat Badges ───────────────────────────── */
+.lp-stat-badge {
+    position: absolute;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 12px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    box-shadow: var(--shadow-md);
+    z-index: 5;
+    min-width: 110px;
+    text-align: center;
+}
+
+.lp-stat-badge--top    { top: 20px; right: 10px; }
+.lp-stat-badge--bottom { bottom: 20px; left: 10px; }
+
+.lp-stat-num {
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: var(--primary);
+    line-height: 1;
+    direction: ltr;
+}
+
+.lp-stat-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
 /* ─── Lang Button ────────────────────────────────────── */
 .lang-btn {
     font-weight: 900;
@@ -573,6 +850,77 @@ body.dark-mode .card-icon-wrapper {
     background: var(--primary);
     color: #FFFFFF;
     border-color: var(--primary);
+}
+
+/* ─── Entrance Fade-In Animation ─────────────────────── */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in    { animation: fadeInUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.hero-content { animation: fadeInUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* ─── Micro-Scale Hover Utilities ────────────────────── */
+.hero-btn.primary { will-change: transform; }
+.hero-btn.primary:active { transform: scale(0.98); }
+
+/* ─── Responsive: Tablet ─────────────────────────────── */
+@media (max-width: 1024px) {
+    .lp-visual-col { flex: 0 0 320px; height: 300px; }
+    .lp-icon-display { width: 160px; height: 160px; }
+    .lp-icon-main { width: 64px; height: 64px; }
+    .lp-icon-ring--1 { width: 210px; height: 210px; }
+    .lp-icon-ring--2 { width: 260px; height: 260px; }
+    .lp-section-inner { gap: 48px; }
+}
+
+/* ─── Responsive: Mobile ─────────────────────────────── */
+@media (max-width: 900px) {
+    .dock-main-links { display: none; }
+    .hero { padding-top: 110px; }
+    .lp-section { padding: 72px 5%; }
+
+    .lp-section-inner,
+    .lp-section-inner--reversed {
+        flex-direction: column !important;
+        gap: 56px;
+        text-align: center;
+    }
+
+    .lp-text-col,
+    .lp-section-inner--reversed .lp-text-col {
+        order: 1 !important;
+        text-align: center;
+    }
+
+    .lp-visual-col,
+    .lp-section-inner--reversed .lp-visual-col {
+        order: 2 !important;
+        flex: 0 0 auto;
+        width: 100%;
+        height: 280px;
+    }
+
+    .lp-section-desc { max-width: 100%; }
+    .lp-stat-badge--top    { top: 8px;    right: 0; }
+    .lp-stat-badge--bottom { bottom: 8px; left: 0;  }
+}
+
+@media (max-width: 550px) {
+    .dock { padding: 14px 20px; }
+    .lp-section { padding: 60px 5%; }
+    .lp-section-title { font-size: 1.7rem; }
+    .lp-visual-col { height: 240px; }
+    .lp-icon-display { width: 130px; height: 130px; }
+    .lp-icon-main { width: 52px; height: 52px; }
+    .lp-icon-ring--1 { width: 170px; height: 170px; }
+    .lp-icon-ring--2 { width: 210px; height: 210px; }
+}
+
+@media (max-width: 768px) {
+    .footer-inner { flex-direction: column; }
+    .footer-legal-item { text-align: right; }
 }
 
 /* ─── Entrance Fade-In Animation ─────────────────────── */

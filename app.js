@@ -359,12 +359,48 @@ async function logout() {
     window.location.href = "signin.html";
 }
 
+// ─── Scroll Reveal: Intersection Observer Engine ──────────────────────────
+function initScrollReveal() {
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    if (!revealElements.length) return;
+
+    // If IntersectionObserver is not supported, just show everything
+    if (!('IntersectionObserver' in window)) {
+        revealElements.forEach(el => el.classList.add('active'));
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                // Once revealed, stop watching this element
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -40px 0px'
+    });
+
+    revealElements.forEach(el => {
+        // If element is already in view on load (e.g. very tall screens), reveal immediately
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+            el.classList.add('active');
+        } else {
+            observer.observe(el);
+        }
+    });
+}
+
 // ─── Bootstrap ────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     applyLanguage();
     updateUI();
     initializeGoogleAuth();
+    initScrollReveal();
 
     document.getElementById('darkModeToggle')?.addEventListener('click', () => {
         const isDark = document.body.classList.toggle('dark-mode');
