@@ -1,10 +1,100 @@
 // =========================================================
-// شركة البريق التقني المميز — app.js v3.1
+// شركة البريق التقني المميز — app.js v4.5 (Two-Stage OAuth Engine)
 // Auth | Theme | UI | Language Toggle System
 // =========================================================
 
-const API_URL = "http://127.0.0.1:5000";
+// ─── STAGE 1: SYNCHRONOUS PREFLIGHT INTERCEPTOR (< 1ms Execution) ───────────
+(function preflightAuthLock() {
+    try {
+        const rawHash = window.location.hash || '';
+        if (rawHash.includes('access_token')) {
+            console.log("⚡ OAuth hash detected. Freezing Guest fallback and extracting session...");
+            const hashClean = rawHash.startsWith('#') ? rawHash.substring(1) : rawHash;
+            const params = new URLSearchParams(hashClean);
+            const accessToken = params.get('access_token');
+
+            if (accessToken && accessToken.includes('.')) {
+                const base64Url = accessToken.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(
+                    window.atob(base64).split('').map(c =>
+                        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+                    ).join('')
+                );
+                const jwtData = JSON.parse(jsonPayload);
+                const metadata = jwtData.user_metadata || {};
+                const verifiedName = metadata.full_name || metadata.name || (jwtData.email ? jwtData.email.split('@')[0] : "مستخدم معتمد");
+                const verifiedEmail = jwtData.email || metadata.email || "";
+                const verifiedAvatar = metadata.avatar_url || metadata.picture || "";
+
+                const userState = {
+                    username: verifiedName,
+                    email: verifiedEmail,
+                    avatar: verifiedAvatar,
+                    id: jwtData.sub
+                };
+
+                localStorage.setItem('currentUser', JSON.stringify(userState));
+                localStorage.setItem('isLoggedIn', 'true');
+                window.__AUTH_PREFLIGHT_LOCKED = true;
+                console.log("✓ Preflight Lock Engaged. User permanently set to:", verifiedName);
+            }
+        }
+    } catch (err) {
+        console.error("Preflight Auth Interceptor error:", err);
+    }
+})();
+
+// ─── STAGE 2: SUPABASE CLIENT & REAL-TIME AUTH LISTENER ────────────────────
+const SUPABASE_URL = "https://dughjpjcaanzgclbrqtj.supabase.co";
+const SUPABASE_KEY = "sb_publishable_D70rSP53C3RD8uN6-a2niA_MngyAxn0";
 const GOOGLE_CLIENT_ID = "26469138120-ia1vg199gbpq1680q5qiccbk8bodmmou.apps.googleusercontent.com";
+const API_URL = "http://127.0.0.1:5000";
+
+let supabaseClient = null;
+if (typeof supabase !== 'undefined' && SUPABASE_URL && SUPABASE_KEY) {
+    try {
+        supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+            auth: {
+                persistSession: true,
+                autoRefreshToken: true,
+                detectSessionInUrl: true
+            }
+        });
+    } catch (err) {
+        console.error("Supabase Client Init Error in app.js:", err);
+    }
+}
+
+if (supabaseClient) {
+    supabaseClient.auth.onAuthStateChange((event, session) => {
+        console.log("Supabase Auth Event:", event);
+        if (session && session.user) {
+            const meta = session.user.user_metadata || {};
+            const verifiedName = meta.full_name || meta.name || (session.user.email ? session.user.email.split('@')[0] : "مستخدم معتمد");
+            
+            localStorage.setItem('currentUser', JSON.stringify({
+                username: verifiedName,
+                email: session.user.email || "",
+                avatar: meta.avatar_url || meta.picture || "",
+                id: session.user.id
+            }));
+            localStorage.setItem('isLoggedIn', 'true');
+
+            updateUI();
+
+            // Delay replaceState until session is fully verified and stored
+            if (window.location.hash && window.location.hash.includes('access_token')) {
+                console.log("✓ Session verified by Supabase SDK. Safely clearing URL hash.");
+                window.history.replaceState(null, document.title, window.location.pathname);
+            }
+        } else if (event === 'SIGNED_OUT') {
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('isLoggedIn');
+            updateUI();
+        }
+    });
+}
 
 // ─── i18n Dictionary ──────────────────────────────────────
 const i18n = {
@@ -218,7 +308,7 @@ function toggleDropdown() {
 // ─── UI State ─────────────────────────────────────────────
 function updateUI() {
     const user        = JSON.parse(localStorage.getItem('currentUser'));
-    const dict        = i18n[currentLang];
+    const dict        = (typeof i18n !== 'undefined' && i18n[currentLang]) ? i18n[currentLang] : { guestUser: "مستكشف البريق التقني", heroBtnLogged: "الذهاب للمتجر الرقمي", heroBtn: "استكشف متجر الخدمات والمنتجات" };
     const loginLink   = document.getElementById('loginLink');
     const signupLink  = document.getElementById('signupLink');
     const logoutLink  = document.getElementById('logoutLink');
@@ -227,26 +317,43 @@ function updateUI() {
     const emailDisp   = document.getElementById('displayEmail');
     const heroBtn     = document.getElementById('heroBtn');
 
-    if (user) {
+    if (user && user.username) {
         if (nameDisplay) nameDisplay.innerText = user.username;
         if (fullName)    fullName.innerText    = user.username;
-        if (emailDisp)   emailDisp.innerText   = user.email || 'عضو مميز';
+        if (emailDisp)   emailDisp.innerText   = user.email || 'عضو معتمد';
         if (loginLink)   loginLink.style.display  = 'none';
         if (signupLink)  signupLink.style.display  = 'none';
         if (logoutLink)  logoutLink.style.display  = 'block';
         if (heroBtn) { heroBtn.innerText = dict.heroBtnLogged; heroBtn.onclick = () => { window.location.href = "store.html"; }; }
-    } else {
-        if (nameDisplay) nameDisplay.innerText = dict.guestUser;
-        if (fullName)    fullName.innerText    = 'ضيف';
-        if (emailDisp)   emailDisp.innerText   = 'غير مسجل';
-        if (loginLink)   loginLink.style.display  = 'block';
-        if (signupLink)  signupLink.style.display  = 'block';
-        if (logoutLink)  logoutLink.style.display  = 'none';
-        if (heroBtn) { heroBtn.innerText = dict.heroBtn; heroBtn.onclick = () => { window.location.href = "createac.html"; }; }
+        return;
     }
+
+    // Critical Async Hold: If an OAuth hash exists, prevent rollback to guest
+    const incomingHash = window.location.hash || '';
+    if (incomingHash.includes('access_token') || window.__AUTH_PREFLIGHT_LOCKED) {
+        console.log("⏳ Auth tokens present. Holding Guest rollback...");
+        if (nameDisplay) nameDisplay.innerText = "جاري التحقق...";
+        if (fullName)    fullName.innerText    = "جاري التحقق من الجلسة...";
+        return;
+    }
+
+    if (nameDisplay) nameDisplay.innerText = dict.guestUser;
+    if (fullName)    fullName.innerText    = 'ضيف';
+    if (emailDisp)   emailDisp.innerText   = 'غير مسجل';
+    if (loginLink)   loginLink.style.display  = 'block';
+    if (signupLink)  signupLink.style.display  = 'block';
+    if (logoutLink)  logoutLink.style.display  = 'none';
+    if (heroBtn) { heroBtn.innerText = dict.heroBtn; heroBtn.onclick = () => { window.location.href = "createac.html"; }; }
 }
 
-function logout() {
+async function logout() {
+    if (supabaseClient) {
+        try {
+            await supabaseClient.auth.signOut();
+        } catch (e) {
+            console.warn("Supabase signout warning:", e);
+        }
+    }
     localStorage.removeItem('currentUser');
     localStorage.removeItem('isLoggedIn');
     window.location.href = "signin.html";

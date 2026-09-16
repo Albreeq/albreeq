@@ -2,10 +2,15 @@
 <html lang="ar" dir="rtl">
 
 <head>
-    <!-- URL MASKING ENFORCEMENT (Executes immediately before DOM construction) -->
+    <!-- SAFE URL MASKING: Yields execution if auth hash is present -->
     <script>
-        (function enforceUrlMasking() {
+        (function guardAuthHash() {
             try {
+                const hash = window.location.hash || '';
+                const search = window.location.search || '';
+                if (hash.includes('access_token') || hash.includes('error') || search.includes('code=')) {
+                    return; // DO NOT TOUCH THE URL
+                }
                 const pathSegments = window.location.pathname.split('/');
                 const pageIndex = pathSegments.indexOf('signin.html');
                 let targetRoot = '/';
@@ -205,7 +210,7 @@
             }
 
             try {
-                const redirectTarget = "https://albreeq.github.io";
+                const redirectTarget = window.location.origin;
                 const { data, error } = await supabaseClient.auth.signInWithOAuth({
                     provider: 'google',
                     options: {

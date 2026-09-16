@@ -2,10 +2,15 @@
 <html lang="ar" dir="rtl">
 <head>
     <!-- 1. URL MASKING ENFORCEMENT (Executes immediately before DOM construction) -->
+    <!-- SAFE URL MASKING: Yields execution if auth hash is present -->
     <script>
-        (function enforceUrlMasking() {
+        (function guardAuthHash() {
             try {
-                // Determine root domain/repo path (supports custom domain '/' or GitHub Pages '/<repo>/')
+                const hash = window.location.hash || '';
+                const search = window.location.search || '';
+                if (hash.includes('access_token') || hash.includes('error') || search.includes('code=')) {
+                    return; // DO NOT TOUCH THE URL
+                }
                 const pathSegments = window.location.pathname.split('/');
                 const sysIndex = pathSegments.indexOf('sys_data');
                 let targetRoot = '/';
@@ -301,7 +306,7 @@
                 const { data, error } = await supabaseClient.auth.signInWithOAuth({
                     provider: 'google',
                     options: {
-                        redirectTo: "https://albreeq.github.io"
+                        redirectTo: window.location.origin
                     }
                 });
 
