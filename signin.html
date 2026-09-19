@@ -89,6 +89,48 @@
             border: 1px solid #A7F3D0;
             display: block;
         }
+
+        .security-disclaimer {
+            margin-top: 18px;
+            padding: 12px 14px;
+            background: #FFFBEB;
+            border: 1px solid #FCD34D;
+            border-radius: var(--radius-sm, 6px);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            text-align: right;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+
+        body.dark-mode .security-disclaimer {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .security-disclaimer-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            fill: #D97706;
+        }
+
+        body.dark-mode .security-disclaimer-icon {
+            fill: #FBBF24;
+        }
+
+        .security-disclaimer-text {
+            font-size: 0.78rem;
+            line-height: 1.6;
+            color: #92400E;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        body.dark-mode .security-disclaimer-text {
+            color: #FDE68A;
+        }
     </style>
 </head>
 
@@ -157,6 +199,13 @@
                     </button>
                 </div>
 
+                <div class="security-disclaimer">
+                    <svg class="security-disclaimer-icon" viewBox="0 0 20 20" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                    </svg>
+                    <p class="security-disclaimer-text">تنويه أمني: نظرًا لإيقاف تأكيد البريد الإلكتروني مؤقتًا لتسهيل تجربة المستخدم، فإن الحسابات العشوائية وغير النشطة التي لم يتم ربطها بطلب شراء أو تفعيل حقيقي سيتم حذفها تلقائيًا من قاعدة البيانات بعد 14 يومًا لضمان حماية واستقرار النظام.</p>
+                </div>
+
                 <div id="statusMessage" class="status-msg"></div>
             </form>
 
@@ -168,9 +217,9 @@
 
     <footer class="auth-page-footer" role="contentinfo">
         <p class="auth-footer-legal">
-            رقم السجل التجاري: <span>6767-676767-6767</span>
+            رقم السجل التجاري: <span>7054338673</span>
             &nbsp;|&nbsp;
-            الرقم الضريبي: <span>xx-xx-xxx</span>
+            الرقم الضريبي: <span>314793571100003</span>
         </p>
         <p class="auth-footer-legal">
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
